@@ -16,11 +16,19 @@
         }
     </style>
 </head>
-<body>
+<body> 
     <button id='say-hello-button'>say hello!</button>
     <button id='animals-button'>oh my!</button>
     <button id='repeat-button'>repeat my param</button>
     <button id='query-button'>send a query</button>
+    
+    <br/>
+    <br/>
+    
+    <form action="http://localhost:3000/food", method="post">
+        <input placeholder="Enter a food...">
+        <button>Add to List</button>
+    </form>
 
     <p id='hello-text'>Hello World!</p>
     <p id='repeat-text'></p>

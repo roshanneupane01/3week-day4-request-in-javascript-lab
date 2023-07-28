@@ -88,8 +88,12 @@ const ohMy = () => {
         let repeatText = document.getElementById('repeat-text')
         repeatText.style.display = 'block'
         repeatText.style.color = 'red'
-        repeatText.textContent = res.data;
-        console.log(repeatText.textContent)
+        console.log(res.data)
+        for(let i = 0; i<res.data.length; i++){
+            let newElement = document.createElement('p')
+            newElement.textContent = res.data[i]
+            repeatText.append(newElement)
+        }
     })
     .catch((err) => {
         console.error(err)
@@ -117,7 +121,7 @@ const repeatMyParam = () => {
     axios
     .get('http://localhost:3000/repeat/cat')
     .then((res)=>{
-        let repeatParam = document.getElementById('repeat-text')
+        let repeatParam = document.getElementById('hello-text')
         repeatParam.textContent = res.data;
         repeatParam.style.display = 'block'
         repeatParam.style.color = 'blue'
@@ -154,7 +158,7 @@ document.getElementById('repeat-button').addEventListener('click', repeatMyParam
 // CODE HERE
 let getRequest = () => {
     axios
-    .get('http://localhost:3000/query-test/?animal=dog')
+    .get('http://localhost:3000/query-test/?animal=dog&flower=rose')
     .then((res) => {
         console.log(res.data)
     })
@@ -184,9 +188,11 @@ document.getElementById('query-button').addEventListener('click', getRequest)
 /*
     In the function that you wrote for Problem 8, change the URL to test a couple different scenarios. 
 
-    1: Send no queries on the URL -- what happened? 
+    1: Send no queries on the URL -- what happened?
+    Answer: Received a console log saying, 'You sent an empty query!'
 
-    2: Send more than 1 query on the URL -- what happened? 
+    2: Send more than 1 query on the URL -- what happened?
+    Answer: Received a console log '{message: "You sent more than 1 query!", queries: {animal: "dog", flower: "rose"}}'
 */
 
 // Edit code in Problem 8
@@ -216,4 +222,35 @@ document.getElementById('query-button').addEventListener('click', getRequest)
     Based on what we did earlier to display this type of data, write code that will display the response in your HTML document. 
 */
 
-// CODE HERE 
+// CODE HERE
+
+// Function to handle the form submit and make the POST request
+const createFood = (event) => {
+    event.preventDefault() // Prevent the default form submission behavior
+
+    // Get the input element and its value
+    let foodInput = document.querySelector('input')
+    
+
+    // Create the request body with the new food item
+    let body = {
+        newFood: foodInput.value
+    };
+
+    // Make the POST request using axios
+    axios.post('http://localhost:3000/food', body)
+        .then((res) => {
+            console.log(res.data)
+            // On successful response, update the list of foods
+            let responseText = document.getElementById('repeat-text')
+            responseText.style.display = 'block'
+            responseText.style.color = 'blue'
+            responseText.textContent = res.data.join(', ')
+        })
+        .catch((err) => {
+            // Handle errors if any
+            console.error(err)
+        });
+};
+
+document.querySelector('form').addEventListener('submit', createFood)
